@@ -1,0 +1,39 @@
+Metadata-Version: 2.1
+Name: modcall
+Version: 0.1.0
+Summary: Create callable modules
+Home-page: https://github.com/tombulled/modcall
+License: MIT
+Keywords: python,modcall,module,callable
+Author: Tom Bulled
+Author-email: 26026015+tombulled@users.noreply.github.com
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Project-URL: Documentation, https://github.com/tombulled/modcall
+Project-URL: Repository, https://github.com/tombulled/modcall
+Description-Content-Type: text/markdown
+
+# modcall
+Create callable modules
+
+## Usage
+**lib.py**
+```python
+import modcall
+
+def hello(name: str) -> None:
+    print(f'Hello, {name}!')
+
+modcall(__name__, hello)
+```
+
+**app.py**
+```python
+import lib
+
+lib('World')
+```
+

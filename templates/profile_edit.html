@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/profileedit.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Profile</h1>
+        <form action="{{ url_for('update_profile') }}" method="post" enctype="multipart/form-data">
+            <label for="display_name">Display Name:</label>
+            <input type="text" name="display_name" id="display_name" value="{{ current_user.display_name }}" required><br>
+            
+            <label for="status">Status:</label>
+            <select name="status" id="status">
+                <option value="available" {% if current_user.status == 'available' %}selected{% endif %}>Available</option>
+                <option value="unavailable" {% if current_user.status == 'unavailable' %}selected{% endif %}>Unavailable</option>
+            </select><br>
+            
+            <label for="profile_picture">Profile Picture:</label>
+            <input type="file" name="profile_picture" id="profile_picture"><br>
+            
+            <button type="submit" class="btn btn-profile">Update Profile</button>
+        </form>
+        {% if current_user.profile_picture_url %}
+        <button onclick="viewProfilePicture()">View Current Picture</button>
+        <div class="image-box">
+            <img id="profilePic" src="" alt="Profile Picture">
+            <button class="close-btn" onclick="closeImage()"style="display:none";>X</button>
+        </div>
+        {% endif %}
+        <!-- Back to Chat button -->
+        <a href="{{ url_for('chat') }}" class="btn btn-back">Back to Chat</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        function viewProfilePicture() {
+            var img = document.getElementById('profilePic');
+            var closeButton = document.querySelector('.close-btn');
+        
+            img.src = "{{ current_user.profile_picture_url }}";  // Set the source to show image
+            img.style.display = 'block'; // Show the image
+            closeButton.style.display = 'block'; // Show the close button
+        }
+
+        function closeImage() {
+            var img = document.getElementById('profilePic');
+            var closeButton = document.querySelector('.close-btn');
+        
+            img.style.display = 'none'; // Hide the image
+            closeButton.style.display = 'none'; // Hide the close button
+    }
+    </script>
+</body>
+</html>

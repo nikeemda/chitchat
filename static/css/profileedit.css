@@ -1,0 +1,68 @@
+/* Button Base Style */
+.btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: inline-block;
+    margin: 10px 5px;
+    transition: background-color 0.3s, transform 0.2s;
+    text-decoration: none;
+    color: white;
+    outline: none;
+    background-color: #00aced; 
+}
+
+.btn:hover {
+    background-color: #0084b4; 
+    transform: scale(1.05); 
+}
+
+/* Back to Chat Button */
+.btn-back {
+    background-color: #efefef; 
+    color: #333; 
+}
+
+.btn-back:hover {
+    background-color: #e2e2e2; 
+}
+
+/* Profile Picture Upload Styling */
+#profilePic {
+    max-width: 100%;
+    display: none;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.image-box {
+    position: relative;
+    display: inline-block;
+}
+
+.image-box:hover .close-btn {
+    display: block;
+}
+
+.close-btn {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 25px;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    background: #f44336; 
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.close-btn:hover {
+    background-color: #d32f2f; /
+}

@@ -1,0 +1,38 @@
+Metadata-Version: 2.1
+Name: namespace
+Version: 0.1.4
+Summary: Simple namespaces
+Home-page: https://github.com/tombulled/namespace
+License: MIT
+Keywords: python,namespace
+Author: Tom Bulled
+Author-email: 26026015+tombulled@users.noreply.github.com
+Requires-Python: >=3.8,<4.0
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Requires-Dist: modcall (>=0.1.0,<0.2.0)
+Project-URL: Documentation, https://github.com/tombulled/namespace
+Project-URL: Repository, https://github.com/tombulled/namespace
+Description-Content-Type: text/markdown
+
+# namespace
+Simple namespaces
+
+## Usage
+```python
+>>> import namespace
+>>>
+>>> functions = namespace()
+>>>
+>>> @functions
+>>> def foo(): pass
+>>>
+>>> functions
+Namespace(foo=<function foo at 0x7fd5d249d1f0>)
+>>>
+>>> functions.foo
+<function foo at 0x7fd5d249d1f0>
+```
+

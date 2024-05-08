@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Application</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Chat Application</h1>
+    <p>Welcome, <b>{{ username }}</b>!</p>
+    <form id="chat-form">
+        <input type="text" class="username" placeholder="Username" value="{{ username }}" readonly>
+        <select class="recipient">
+            {% for user in users %}
+                {% if user != username %}
+                    <option>{{ user }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <input type="text" class="message" placeholder="Message" />
+        <button type="submit">Send</button>
+    </form>
+    <div id="chat-messages"></div>
+
+    <script>
+        $(document).ready(function() {
+            var socket = io();
+            socket.on('connect', function() {
+                socket.emit('join', {recipient: $('.recipient').val()});
+            });
+    
+            var currentUser = $('.username').val();
+    
+            $('#chat-form').submit(function(event) {
+                event.preventDefault();
+                var recipient = $('.recipient').val();
+                var message = $('.message').val();
+                socket.emit('chat message', { recipient: recipient, message: message });
+                $('.message').val('');
+            });
+    
+            socket.on('chat message', function(data) {
+                console.log('Received message:', data); // Debugging
+                $('#chat-messages').append('<p><b>' + data.sender + ':</b> ' + data.message + '</p>');
+            });
+        });
+    </script>
+    
+    
+</body>
+</html>

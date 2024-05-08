@@ -1,0 +1,39 @@
+/* login.css */
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('../images/ChitChat-backdrop.jpeg'); 
+    background-size: cover; 
+    background-position: center; 
+    background-attachment: fixed; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0; 
+    color: black;
+}
+
+
+.container {
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 40px; 
+    border-radius: 15px; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3); 
+    text-align: center;
+    max-width: 600px; 
+}
+
+input[type="email"], input[type="password"], button {
+    width: 80%; 
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}

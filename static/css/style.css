@@ -1,0 +1,106 @@
+/* General body styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container for forms and chat */
+.container {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+}
+
+/* Common input and button styling */
+input[type="text"], input[type="password"], input[type="email"], button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box; 
+}
+
+button {
+    background-color: #5c67f2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #4a54e1;
+}
+
+/* Titles within forms */
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+/* Message box styling */
+#chat-box {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.message {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    position: relative;
+    max-width: 80%;
+}
+
+/* Differentiate between 'mine' and 'theirs' messages */
+.mine {
+    background-color: #d1e7dd;
+    align-self: flex-end;
+    margin-left: 20%;
+}
+
+.theirs {
+    background-color: #f8d7da;
+    align-self: flex-start;
+    margin-right: 20%;
+}
+
+/* Utility classes for layout */
+.flex {
+    display: flex;
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        height: 100%;
+        max-width: none;
+        overflow-y: auto; /* Makes the container scrollable */
+    }
+}

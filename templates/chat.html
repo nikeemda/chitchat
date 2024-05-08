@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chat.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script>
+        window.curr_user = '{{ curr_user }}';
+        //var curr_user = '{{ curr_user }}';
+        sessionStorage.setItem('curr_user', curr_user);
+    </script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <div class="nav-bar">
+                <input type="text" id="searchInput" placeholder="Search">
+                <div class="settings-menu">
+                    <div class="dropdown">
+                        <button onclick="toggleDropdown()" class="dropbtn">Settings</button>
+                        <div id="dropdownMenu" class="dropdown-content">
+                            <a href="/profile_edit">Edit Profile</a>
+                            
+                            <a href="#" onclick="toggleCreateGroupChatForm()">Create Group Chat</a>
+                            <a href="/logout">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--
+            <ul id="contactList" class="contact-list" style="display: none;">
+                
+            </ul>
+            <ul id="chatList" class="chat-list">
+                <
+            </ul>
+            -->
+            
+            <ul id="userList" class="chat-list">
+                
+            </ul>
+             
+        </div>
+        <div class="chat-window">
+            <div class="contact-header">
+                <img id="contactImage" src="" alt="Profile" style="width: 30px; height: 30px; border-radius: 50%;">
+                <span id="contactName"></span>
+                <!--<h3 id="contactName">Select a contact</h3>-->
+            </div>
+            <div class="messages">
+                <!-- Messages will be dynamically loaded here -->
+                <!-- Example received message -->
+                <div class="message received">
+                    <p class="message-content">Received message content</p>
+                    <span class="message-timestamp">Timestamp</span>
+                </div>
+                <!-- Example sent message -->
+                <div class="message sent">
+                    <p class="message-content">Sent message content</p>
+                    <span class="message-timestamp">Timestamp</span>
+                </div>
+                <!--
+                    <div class="message">
+                    <p class="message-content">Message content</p>
+                    <span class="message-timestamp">Timestamp</span>
+                </div>
+                -->
+            </div>
+            <form onsubmit="sendMessage(event)" class="message-input">
+                <input type="hidden" name="receiver" id="receiver">
+                <input type="text" name="message" id="messageInput" placeholder="Type your message here..." required>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal for creating group chat -->
+    <div id="createGroupChatModal" class="modal">
+        <div class="modal-content">
+            <span id="closeModal" class="close">&times;</span>
+            <form onsubmit="createGroupChat(event)">
+                <input type="text" id="groupName" placeholder="Group Name" required>
+                <input type="text" id="groupMemberInput" placeholder="Enter member's name">
+                <ul id="memberDropdown" class="member-dropdown" style="display: none;">             
+                </ul>
+                <div id="selectedMembers" class="selected-members"></div>
+                <button type="submit">Create Group Chat</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
