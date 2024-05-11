@@ -280,3 +280,29 @@ body {
     font-size: 16px;
     line-height: 1.5;
 }
+
+.file-link {
+    display: inline-block;
+    margin-top: 5px;
+    background: #007bff;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+.file-link:hover {
+    background: #0056b3;
+}
+
+.attached-image-preview {
+    max-width: 200px;
+    max-height: 200px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+  }
+  
+  .attached-image-preview:hover {
+    opacity: 0.8;
+  }

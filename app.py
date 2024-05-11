@@ -19,10 +19,10 @@ Session(app)  # Initialize the Flask-Session extension
 UPLOAD_FOLDER = 'uploads'  
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-cred = credentials.Certificate('chit-chat-firebase-adminsdk.json')
+cred = credentials.Certificate('')
 firebase_admin.initialize_app(
         cred,
-        {'storageBucket': 'chit-chat-7b3c9.appspot.com'}
+        {'storageBucket': ''}
     )
 db = firestore.client()
 
@@ -133,6 +133,8 @@ def handle_message(data):
 
     room_id = data.get('room_id')
     message_content = data.get('message')
+    file_content = data.get('fileContent')
+    file_name = data.get('fileName')
 
     if not room_id or not message_content:
         emit('error', 'Room ID and message content must be provided.')
@@ -145,7 +147,7 @@ def handle_message(data):
     sender_display_name = sender_doc.to_dict().get('display_name', 'Unknown User')
 
     #timestamp = datetime.now().strftime('%b %d, %Y at %I:%M:%S %p')
-
+    file_path = upload_to_firebase_storage(file_content, file_name) if file_content else ''
 
     # Save the message to the database
     db.collection('messages').add({
@@ -153,6 +155,7 @@ def handle_message(data):
         'display_name': sender_display_name,
         'receiver_user': receiver_user,  
         'content': message_content,
+        'file_path': file_path if file_content else '',
         'timestamp': firestore.SERVER_TIMESTAMP
     })
 
@@ -291,6 +294,10 @@ def get_messages():
             # Show display name for previous messages
             sender_name = sender_doc.to_dict().get('display_name', 'Unknown User')
             msg_data['sender_name'] = sender_name
+
+            if 'file_path' in msg_data:
+                file_path = msg_data['file_path']
+                msg_data['file_path'] = file_path
             messages.append(msg_data)
 
     sorted_messages = sorted(messages, key=itemgetter('timestamp'))
@@ -526,6 +533,10 @@ def search_all():
     return jsonify(search_results)
 """
 
+'''
 
 if __name__ == '__main__':
     socketio.run(app, debug=True)
+'''
+if __name__ == '__main__':
+    socketio.run(app, host='0.0.0.0', port=5000)

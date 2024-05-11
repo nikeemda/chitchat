@@ -74,7 +74,8 @@
             </div>
             <form onsubmit="sendMessage(event)" class="message-input">
                 <input type="hidden" name="receiver" id="receiver">
-                <input type="text" name="message" id="messageInput" placeholder="Type your message here..." required>
+                <input type="text" name="message" id="messageInput" placeholder="Type your message here..." >
+                <input type="file" id="fileInput" name="file" multiple>
                 <button type="submit">Send Message</button>
             </form>
         </div>

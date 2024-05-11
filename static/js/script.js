@@ -50,87 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     
     
-/*
-    function searchGroups(event, input, list) {
-        const query = input.value;
-        if (query.length > 0) {
-            fetch(`/search_groupchats?query=${query}`)
-                .then(response => response.json())
-                .then(group_chats => {
-                    list.innerHTML = '';
-                    group_chats.forEach(group => {
-                    
-                        const groupItem = document.createElement('li');
-                        groupItem.textContent = group.group_name; // Display name or fallback to email
-                        groupItem.setAttribute('data-group_name', group.group_name);
-                        groupItem.onclick = () => openGroupChat(group.group_name, group.members); // Pass user ID and display name
-                        groupList.appendChild(groupItem);
-                    });
-                    if (group_chats.length > 0) {
-                        list.style.display = 'block';
-                    } else {
-                        list.style.display = 'none';
-                    }
-                })
-                .catch(error => console.error('Error:', error));
-        } else {
-            list.innerHTML = '';
-            list.style.display = 'none';
-        }
-    }
-    */
-    /*
-    function searchAll(event) {
-        const query = searchInput.value;
-        if (query.length > 0) {
-            Promise.all([
-                fetch(`/search_all?query=${query}`).then(res => res.json()),
-            
-            ]).then(([users, group_chats]) => {
-                dropdownMenu.innerHTML = ''; // Clear previous results
-                if (users.length + group_chats.length > 0) {
-                    users.forEach(user => {
-                        const userItem = createUserListItem(user);
-                        dropdownMenu.appendChild(userItem);
-                    });
-                    group_chats.forEach(group => {
-                        const groupItem = createGroupListItem(group);
-                        dropdownMenu.appendChild(groupItem);
-                    });
-                    dropdownMenu.style.display = 'block';
-                } else {
-                    dropdownMenu.style.display = 'none';
-                }
-            }).catch(error => {
-                console.error('Error:', error);
-                dropdownMenu.style.display = 'none';
-            });
-        } else {
-            dropdownMenu.innerHTML = '';
-            dropdownMenu.style.display = 'none';
-        }
-    }
-    
 
-    function createUserListItem(user) {
-        const item = document.createElement('li');
-        item.textContent = user.display_name || user.email;
-        item.setAttribute('data-email', user.email);
-        item.onclick = () => openChat(user.email, user.display_name);
-        return item;
-    }
-
-    function createGroupListItem(group) {
-        const item = document.createElement('li');
-        item.textContent = group.group_name;
-        item.setAttribute('data-group_name', group.group_name);
-        item.onclick = () => openGroupChat(group.group_name, group.members);
-        return item;
-    }
-
-    searchInput.addEventListener('keyup', searchAll);
-
-    */
 /////////////////////////
 
     function searchMembers(event, input, list){
@@ -273,6 +193,19 @@ socket.on('new_message', (data, curr_user) => {
 
     messageContainer.appendChild(messageContent);
     messageContainer.appendChild(messageTimestamp);
+    if (msg.file_path) {
+        const filePreview = document.createElement('img');
+        filePreview.src = msg.file_path;
+        filePreview.alt = 'Attached Image';
+        filePreview.classList.add('attached-image-preview');
+
+        const fileLink = document.createElement('a');
+        fileLink.href = msg.file_path;
+        fileLink.target = '_blank'; // Open the link in a new tab
+        fileLink.appendChild(filePreview);
+
+        messageContainer.appendChild(fileLink);
+      }
 
     messagesDiv.appendChild(messageContainer);
 
@@ -343,12 +276,26 @@ function openChat(email, userName) {
                     messageContent.classList.add('message-content');
                     messageContent.textContent = `${senderName}: ${msg.content}`;
                     
+                    
                     const messageTimestamp = document.createElement('span');
                     messageTimestamp.classList.add('message-timestamp');
                     messageTimestamp.textContent = formatTimestamp(msg.timestamp); // Format the timestamp
                     
                     messageContainer.appendChild(messageContent);
                     messageContainer.appendChild(messageTimestamp);
+                    if (msg.file_path) {
+                        const filePreview = document.createElement('img');
+                        filePreview.src = msg.file_path;
+                        filePreview.alt = 'Attached Image';
+                        filePreview.classList.add('attached-image-preview');
+              
+                        const fileLink = document.createElement('a');
+                        fileLink.href = msg.file_path;
+                        fileLink.target = '_blank'; // Open the link in a new tab
+                        fileLink.appendChild(filePreview);
+              
+                        messageContainer.appendChild(fileLink);
+                      }
                     
                     messagesDiv.appendChild(messageContainer);
                 });
@@ -421,6 +368,7 @@ function openGroupChat(group_name, membersList) {
 }
 
 */
+/*
 function sendMessage(event) {
     event.preventDefault(); // Prevent the default form submission
     const receiverEmail = document.getElementById('receiver').value;
@@ -431,7 +379,42 @@ function sendMessage(event) {
 
     messageInput.value = ''; // Clear the input after sending
 }
+*/
 
+function sendMessage(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const receiverEmail = document.getElementById('receiver').value;
+    const messageInput = document.getElementById('messageInput');
+    const messageContent = messageInput.value;
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    const reader = new FileReader();
+
+    if (file) {
+        reader.onload = function(event) {
+            const fileContent = event.target.result; // Get the file content
+    
+            // Use your socket logic to emit the message with the file content
+            socket.emit('message', { 
+                room_id: currentRoom, 
+                message: messageContent,
+                fileContent: fileContent,
+                fileName: file.name
+            });
+        };
+        reader.readAsArrayBuffer(file); // Read the file as an ArrayBuffer
+    } else {
+        // Use your socket logic to emit the message without file content
+        socket.emit('message', { 
+            room_id: currentRoom, 
+            message: messageContent
+        });
+    }
+
+    messageInput.value = ''; // Clear the input after sending
+    fileInput.value = '';
+}
 
 function toggleCreateGroupChatForm() {
     const modal = document.getElementById('createGroupChatModal');
